@@ -11,34 +11,30 @@ from datetime import datetime
 
 from linepy import *
 
-cl = LINE()
-cl.log("Auth Token : " + str(cl.authToken))
-tracer = OEPoll(cl)
+line_client = LINE()
+line_client.log("Auth Token : " + str(line_client.authToken))
+tracer = OEPoll(line_client)
 
-readOpen = codecs.open("read.json", "r", "utf-8")
-settingsOpen = codecs.open("temp.json", "r", "utf-8")
-blackOpen = codecs.open("blacklist.json", "r", "utf-8")
-adminsOpen = codecs.open("creator.json", "r", "utf-8")
+data = {
+    "read": None,
+    "temp": None,
+    "blacklist": None,
+    "creator": None,
+    "reread": None
+}
 
-read = json.load(readOpen)
-settings = json.load(settingsOpen)
-black = json.load(blackOpen)
-admins = json.load(adminsOpen)
+for _data in data:
+    with open("{}.json".format(_data), "r") as f:
+        data[_data] = json.load(f)
 
-clProfile = cl.getProfile()
-clMID = cl.profile.mid
+clProfile = line_client.getProfile()
+clMID = line_client.profile.mid
 admin = ['u28d781fa3ba9783fd5144390352b0c24', clMID]
 
 botStart = time.time()
 
-for owner in admins["Max"]:
+for owner in data["creator"]["Max"]:
     admin = [clMID, owner]
-
-try:
-    with open("Reread.json", "r", encoding="utf_8_sig") as f:
-        msg_dict = json.loads(f.read())
-except:
-    print("讀取紀錄失敗")
 
 bl = []
 
@@ -61,18 +57,9 @@ def restartBot():
 
 def backupData():
     try:
-        backup = settings
-        f = codecs.open('temp.json', 'w', 'utf-8')
-        json.dump(backup, f, sort_keys=True, indent=4, ensure_ascii=False)
-        backup = read
-        f = codecs.open('read.json', 'w', 'utf-8')
-        json.dump(backup, f, sort_keys=True, indent=4, ensure_ascii=False)
-        backup = black
-        f = codecs.open('blacklist.json', 'w', 'utf-8')
-        json.dump(backup, f, sort_keys=True, indent=4, ensure_ascii=False)
-        backup = admins
-        f = codecs.open('creator.json', 'w', 'utf-8')
-        json.dump(backup, f, sort_keys=True, indent=4, ensure_ascii=False)
+        for _data in data:
+            with open('{}.json'.format(_data), 'w') as f:
+                json.dump(data[_data], f, sort_keys=True, indent=4, ensure_ascii=False)
         return True
     except Exception as error:
         logError(error)
@@ -80,7 +67,7 @@ def backupData():
 
 
 def logError(text):
-    cl.log("[ 錯誤 ] " + str(text))
+    line_client.log("[ 錯誤 ] " + str(text))
     time_ = datetime.now()
     with open("errorLog.txt", "a") as error:
         error.write("\n[%s] %s" % (str(time_), text))
@@ -89,7 +76,7 @@ def logError(text):
 def logRead():
     try:
         with open("Reread.json", "w", encoding='utf8') as f:
-            json.dump(msg_dict, f, ensure_ascii=False, indent=4, separators=(',', ': '))
+            json.dump(data["reread"], f, ensure_ascii=False, indent=4, separators=(',', ': '))
     except Exception as error:
         logError(error)
         return False
@@ -99,7 +86,7 @@ def Tag(to, mid):
     try:
         aa = '{"S":"0","E":"3","M":' + json.dumps(mid) + '}'
         text_ = '@co \n'
-        cl.sendMessage(to, text_, contentMetadata={'MENTION': '{"MENTIONEES":[' + aa + ']}'}, contentType=0)
+        line_client.sendMessage(to, text_, contentMetadata={'MENTION': '{"MENTIONEES":[' + aa + ']}'}, contentType=0)
     except Exception as error:
         logError(error)
 
@@ -202,9 +189,9 @@ def NOTIFIED_KICKOUT_FROM_GROUP(op):
     print("[19] NOTIFIED_KICKOUT_FROM_GROUP")
     try:
         if owner in op.param3:
-            cl.kickoutFromGroup(op.param1, [op.param2])
-            cl.inviteIntoGroup(op.param1, [owner])
-            black["blacklist"][op.param2] = True
+            line_client.kickoutFromGroup(op.param1, [op.param2])
+            line_client.inviteIntoGroup(op.param1, [owner])
+            data["black"]["blacklist"][op.param2] = True
             backupData()
     except Exception as e:
         logError(e)
@@ -229,8 +216,8 @@ tracer.addOpInterrupt(21, INVITE_INTO_ROOM)
 
 def NOTIFIED_INVITE_INTO_ROOM(op):
     print("[22] NOTIFIED_INVITE_INTO_ROOM")
-    if settings["autoLeave"] == True:
-        cl.leaveRoom(op.param1)
+    if data["settings"]["autoLeave"]:
+        line_client.leaveRoom(op.param1)
 
 
 tracer.addOpInterrupt(22, NOTIFIED_INVITE_INTO_ROOM)
@@ -245,8 +232,8 @@ tracer.addOpInterrupt(23, LEAVE_ROOM)
 
 def NOTIFIED_LEAVE_ROOM(op):
     print("[24] NOTIFIED_LEAVE_ROOM")
-    if settings["autoLeave"] == True:
-        cl.leaveRoom(op.param1)
+    if data["settings"]["autoLeave"]:
+        line_client.leaveRoom(op.param1)
 
 
 tracer.addOpInterrupt(24, NOTIFIED_LEAVE_ROOM)
@@ -258,25 +245,25 @@ def RECEIVE_MESSAGE(op):
     print("[26] RECEIVE_MESSAGE")
     try:
         msg = op.message
-        if settings["reread"] == True:
+        if data["settings"]["reread"]:
             if msg.contentType == 0:
                 if msg.toType == 0:
-                    cl.log("[%s]" % (msg._from) + msg.text)
+                    line_client.log("[%s]" % (msg._from) + msg.text)
                 else:
-                    cl.log("[%s]" % (msg.to) + msg.text)
+                    line_client.log("[%s]" % (msg.to) + msg.text)
                 if msg.contentType == 0:
-                    msg_dict[msg.id] = {"text": msg.text, "from": msg._from, "createdTime": msg.createdTime}
-        if settings["reck"] == True:
+                    data["reread"][msg.id] = {"text": msg.text, "from": msg._from, "createdTime": msg.createdTime}
+        if data["settings"]["reck"]:
             if msg.contentType == 7:
                 stk_id = msg.contentMetadata['STKID']
                 if msg.toType == 0:
-                    cl.log("[%s]" % (msg._from) + stk_id)
+                    line_client.log("[%s]" % (msg._from) + stk_id)
                 else:
-                    cl.log("[%s]" % (msg.to) + stk_id)
+                    line_client.log("[%s]" % (msg.to) + stk_id)
                 if msg.contentType == 7:
-                    msg_dict[msg.id] = {"id": stk_id, "from": msg._from, "createdTime": msg.createdTime}
-        if len(msg_dict) > 100:
-            del msg_dict[min(list(msg_dict.keys()))]
+                    data["reread"][msg.id] = {"id": stk_id, "from": msg._from, "createdTime": msg.createdTime}
+        if len(data["reread"]) > 100:
+            del data["reread"][min(list(data["reread"].keys()))]
         logRead()
     except Exception as e:
         print(e)
@@ -288,12 +275,12 @@ tracer.addOpInterrupt(26, RECEIVE_MESSAGE)
 def NOTIFIED_READ_MESSAGE(op):
     print("[55] NOTIFIED_READ_MESSAGE")
     try:
-        if op.param1 in read['readPoint']:
-            if op.param2 in read['readMember'][op.param1]:
+        if op.param1 in data["read"]['readPoint']:
+            if op.param2 in data["read"]['readMember'][op.param1]:
                 pass
             else:
-                read['readMember'][op.param1] += op.param2
-            read['ROM'][op.param1][op.param2] = op.param2
+                data["read"]['readMember'][op.param1] += op.param2
+            data["read"]['ROM'][op.param1][op.param2] = op.param2
             backupData()
         else:
             pass
@@ -310,15 +297,15 @@ def NOTIFIED_DESTROY_MESSAGE(op):
         msg = op.message
         at = op.param1
         msg_id = op.param2
-        if settings["reread"] == True:
-            if msg_id in msg_dict:
-                if msg_dict[msg_id]["from"] not in bl:
+        if data["settings"]["reread"]:
+            if msg_id in data["reread"]:
+                if data["reread"][msg_id]["from"] not in bl:
                     rereadtime = time.strftime('%Y-%m-%d %H:%M:%S',
-                                               time.localtime(int(round(msg_dict[msg_id]["createdTime"] / 1000))))
+                                               time.localtime(int(round(data["reread"][msg_id]["createdTime"] / 1000))))
                     newtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(round(time.time()))))
                     try:
-                        mi_d = msg_dict[msg_id]["from"]
-                        cmem = cl.getContact(mi_d)
+                        mi_d = data["reread"][msg_id]["from"]
+                        cmem = line_client.getContact(mi_d)
                         zx = ""
                         zxc = ""
                         zx2 = []
@@ -332,20 +319,20 @@ def NOTIFIED_DESTROY_MESSAGE(op):
                         zx = {'S': xlen, 'E': xlen2, 'M': cmem.mid}
                         zx2.append(zx)
                         zxc += pesan2
-                        retext = msg_dict[msg_id]["text"]
+                        retext = data["reread"][msg_id]["text"]
                         text = xpesan + zxc + xretext + retext + "\n[ 發送時間 ]\n" + rereadtime + "\n[ 收回時間 ]: \n" + newtime
-                        cl.sendMessage(at, text, contentMetadata={
+                        line_client.sendMessage(at, text, contentMetadata={
                             'MENTION': str('{"MENTIONEES":' + json.dumps(zx2).replace(' ', '') + '}')}, contentType=0)
                     except:
-                        aa = '{"S":"0","E":"3","M":' + json.dumps(msg_dict[msg_id]["from"]) + '}'
+                        aa = '{"S":"0","E":"3","M":' + json.dumps(data["reread"][msg_id]["from"]) + '}'
                         txr = '[收回了一個貼圖]\n\n[發送時間]\n%s\n[收回時間]\n%s' % (rereadtime, newtime)
                         pesan = '@c \n'
                         text_ = pesan + txr
-                        cl.sendMessage(at, text_, contentMetadata={'MENTION': '{"MENTIONEES":[' + aa + ']}'},
+                        line_client.sendMessage(at, text_, contentMetadata={'MENTION': '{"MENTIONEES":[' + aa + ']}'},
                                        contentType=0)
-                        cl.sendImageWithURL(at, 'https://stickershop.line-scdn.net/stickershop/v1/sticker/' +
-                                            msg_dict[msg_id]["id"] + '/ANDROID/sticker.png')
-                del msg_dict[msg_id]
+                        line_client.sendImageWithURL(at, 'https://stickershop.line-scdn.net/stickershop/v1/sticker/' +
+                                            data["reread"][msg_id]["id"] + '/ANDROID/sticker.png')
+                del data["reread"][msg_id]
         else:
             pass
     except Exception as e:
