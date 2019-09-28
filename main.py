@@ -251,6 +251,7 @@ def NOTIFIED_LEAVE_ROOM(op):
 
 tracer.addOpInterrupt(24, NOTIFIED_LEAVE_ROOM)
 
+# OP 25
 
 
 def RECEIVE_MESSAGE(op):
