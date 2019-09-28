@@ -39,8 +39,8 @@ for owner in data["creator"]["Max"]:
 bl = []
 
 
-def cTime_to_datetime(unixtime):
-    return datetime.datetime.fromtimestamp(int(str(unixtime)[:len(str(unixtime)) - 3]))
+def cTime_to_datetime(unix_time):
+    return datetime.datetime.fromtimestamp(int(str(unix_time)[:len(str(unix_time)) - 3]))
 
 
 def restart_program():
@@ -57,9 +57,9 @@ def restartBot():
 
 def backupData():
     try:
-        for _data in data:
-            with open('{}.json'.format(_data), 'w') as f:
-                json.dump(data[_data], f, sort_keys=True, indent=4, ensure_ascii=False)
+        for data_ in data:
+            with open('{}.json'.format(data_), 'w') as file:
+                json.dump(data[data_], file, sort_keys=True, indent=4, ensure_ascii=False)
         return True
     except Exception as error:
         logError(error)
