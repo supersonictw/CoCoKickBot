@@ -200,132 +200,6 @@ def helpother():
     return helpOther
 
 
-def END_OF_OPERATION(op):
-    return
-
-
-tracer.addOpInterrupt(0, END_OF_OPERATION)
-
-
-def UPDATE_PROFILE(op):
-    print("[1] UPDATE_PROFILE")
-
-
-tracer.addOpInterrupt(1, UPDATE_PROFILE)
-
-
-def NOTIFIED_UPDATE_PROFILE(op):
-    print("[2] NOTIFIED_UPDATE_PROFILE")
-
-
-tracer.addOpInterrupt(2, NOTIFIED_UPDATE_PROFILE)
-
-
-def REGISTER_USERID(op):
-    print("[3] REGISTER_USERID")
-
-
-tracer.addOpInterrupt(3, REGISTER_USERID)
-
-
-def ADD_CONTACT(op):
-    print("[4] ADD_CONTACT")
-
-
-tracer.addOpInterrupt(4, ADD_CONTACT)
-
-
-def NOTIFIED_ADD_CONTACT(op):
-    print("[5] NOTIFIED_ADD_CONTACT")
-
-
-tracer.addOpInterrupt(5, NOTIFIED_ADD_CONTACT)
-
-
-def BLOCK_CONTACT(op):
-    print("[6] BLOCK_CONTACT")
-
-
-tracer.addOpInterrupt(6, BLOCK_CONTACT)
-
-
-def UNBLOCK_CONTACT(op):
-    print("[7] UNBLOCK_CONTACT")
-
-
-tracer.addOpInterrupt(7, UNBLOCK_CONTACT)
-
-
-def NOTIFIED_RECOMMEND_CONTACT(op):
-    print("[8] NOTIFIED_RECOMMEND_CONTACT")
-
-
-tracer.addOpInterrupt(8, NOTIFIED_RECOMMEND_CONTACT)
-
-
-def CREATE_GROUP(op):
-    print("[9] CREATE_GROUP")
-
-
-tracer.addOpInterrupt(9, CREATE_GROUP)
-
-
-def UPDATE_GROUP(op):
-    print("[10] UPDATE_GROUP")
-
-
-tracer.addOpInterrupt(10, UPDATE_GROUP)
-
-
-def NOTIFIED_UPDATE_GROUP(op):
-    print("[11] NOTIFIED_UPDATE_GROUP")
-
-
-tracer.addOpInterrupt(11, NOTIFIED_UPDATE_GROUP)
-
-
-def INVITE_INTO_GROUP(op):
-    print("[12] INVITE_INTO_GROUP")
-
-
-tracer.addOpInterrupt(12, INVITE_INTO_GROUP)
-
-
-def NOTIFIED_INVITE_INTO_GROUP(op):
-    print("[13] NOTIFIED_INVITE_INTO_GROUP")
-
-
-tracer.addOpInterrupt(13, NOTIFIED_INVITE_INTO_GROUP)
-
-
-def LEAVE_GROUP(op):
-    print("[14] LEAVE_GROUP")
-
-
-tracer.addOpInterrupt(14, LEAVE_GROUP)
-
-
-def NOTIFIED_LEAVE_GROUP(op):
-    print("[15] NOTIFIED_LEAVE_GROUP")
-
-
-tracer.addOpInterrupt(15, NOTIFIED_LEAVE_GROUP)
-
-
-def NOTIFIED_ACCEPT_GROUP_INVITATION(op):
-    print("[17] NOTIFIED_ACCEPT_GROUP_INVITATION")
-
-
-tracer.addOpInterrupt(17, NOTIFIED_ACCEPT_GROUP_INVITATION)
-
-
-def KICKOUT_FROM_GROUP(op):
-    print("[18] KICKOUT_FROM_GROUP")
-
-
-tracer.addOpInterrupt(18, KICKOUT_FROM_GROUP)
-
-
 def NOTIFIED_KICKOUT_FROM_GROUP(op):
     print("[19] NOTIFIED_KICKOUT_FROM_GROUP")
     try:
@@ -1070,27 +944,6 @@ def RECEIVE_MESSAGE(op):
 tracer.addOpInterrupt(26, RECEIVE_MESSAGE)
 
 
-def NOTIFIED_CANCEL_INVITATION_GROUP(op):
-    print("[32] NOTIFIED_CANCEL_INVITATION_GROUP")
-
-
-tracer.addOpInterrupt(32, NOTIFIED_CANCEL_INVITATION_GROUP)
-
-
-def NOTIFIED_REJECT_GROUP_INVITATION(op):
-    print("[35] NOTIFIED_REJECT_GROUP_INVITATION")
-
-
-tracer.addOpInterrupt(35, NOTIFIED_REJECT_GROUP_INVITATION)
-
-
-def SEND_CHAT_CHECKED(op):
-    print("[40] SEND_CHAT_CHECKED")
-
-
-tracer.addOpInterrupt(40, SEND_CHAT_CHECKED)
-
-
 def NOTIFIED_READ_MESSAGE(op):
     print("[55] NOTIFIED_READ_MESSAGE")
     try:
@@ -1160,40 +1013,6 @@ def NOTIFIED_DESTROY_MESSAGE(op):
 
 tracer.addOpInterrupt(65, NOTIFIED_DESTROY_MESSAGE)
 
-
-def NOTIFIED_BLOCK_CONTACT(op):
-    print("[68] NOTIFIED_BLOCK_CONTACT")
-
-
-tracer.addOpInterrupt(68, NOTIFIED_BLOCK_CONTACT)
-
-
-def NOTIFIED_UNBLOCK_CONTACT(op):
-    print("[69] NOTIFIED_UNBLOCK_CONTACT")
-
-
-tracer.addOpInterrupt(69, NOTIFIED_UNBLOCK_CONTACT)
-
-
-def NOTIFIED_ADD_FOLLOW(op):
-    print("[84] NOTIFIED_ADD_FOLLOW")
-
-
-tracer.addOpInterrupt(84, NOTIFIED_ADD_FOLLOW)
-
-
-def NOTIFIED_DELETE_FOLLOW(op):
-    print("[86] NOTIFIED_DELETE_FOLLOW")
-
-
-tracer.addOpInterrupt(86, NOTIFIED_DELETE_FOLLOW)
-
-
-def NOTIFIED_FRIEND_REQUEST(op):
-    print("[88] NOTIFIED_FRIEND_REQUEST")
-
-
-tracer.addOpInterrupt(88, NOTIFIED_FRIEND_REQUEST)
 
 while True:
     tracer.trace()
