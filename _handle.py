@@ -1,4 +1,97 @@
 
+def helpmessage():
+    helpMessage = """☆║．．．．CoCo特製半垢．．．．║☆
+↪ 「Help」        查看指令列表
+↪ 「Help Black」  查看黑單指令
+↪ 「Help Bot」    查看機器指令
+↪ 「Help Group」  查看群組指令
+↪ 「Help Kick」   查看踢人指令
+↪ 「Help Other」  查看其他指令
+〘 Creator By: ©CoCo™  〙
+〘 line.me/ti/p/1MRX_Gjbmv 〙
+☆║．．．．．．．．．．．．．．．║☆"""
+    return helpMessage
+
+
+def helpblack():
+    helpBlack = """☆║．．．．．黑名單指令．．．．．║☆
+↪ 「Clear Ban」  清空黑單
+↪ 「Ban」        好友資料加入黑單
+↪ 「Ban:」       系統識 別碼加入黑單
+↪ 「Ban @」      標註加入黑單
+↪ 「banlist」    查看黑單
+↪ 「Kill Ban」   剔除黑單
+↪ 「Unban」      好友資料解除黑單
+↪ 「Unban:」     系統識別碼解除黑單
+↪ 「Unban @」    標註解除黑單
+〘 Creator By: ©CoCo™  〙
+〘 line.me/ti/p/1MRX_Gjbmv 〙
+☆║．．．．．．．．．．．．．．．║☆"""
+    return helpBlack
+
+
+def helpbot():
+    helpBot = """☆║．．．．．機器指令表．．．．．║☆
+↪ 「Add On/Off」   自動加入好友 打開/關閉
+↪ 「Join On/Off」  邀請自動進入群組 打開/關閉
+↪ 「Leave On/Off」 自動離開副本 打開/關閉
+↪ 「Reread On/Off」查看文字收回 打開/關閉
+↪ 「Rec On/Off」   查看貼圖收回 打開/關閉
+↪ 「Tag On/Off」   標註全部人 打開/關閉
+〘 Creator By: ©CoCo™  〙
+〘 line.me/ti/p/1MRX_Gjbmv 〙
+☆║．．．．．．．．．．．．．．．║☆"""
+    return helpBot
+
+
+def helpgroup():
+    helpGroup = """☆║．．．．．群組指令表．．．．．║☆
+↪ 「Cancel」  取消群組成員的邀請
+↪ 「Curl」    關閉群組網址
+↪ 「Gcancel」 清空邀請中的群組
+↪ 「Ginfo」   查看群組狀態
+↪ 「Inv mid」 使用系統識別碼邀請進入群組
+↪ 「Ourl」    開啟群組網址
+〘 Creator By: ©CoCo™  〙
+〘 line.me/ti/p/1MRX_Gjbmv 〙
+☆║．．．．．．．．．．．．．．．║☆"""
+    return helpGroup
+
+
+def helpkick():
+    helpKick = """☆║．．．．．踢人指令表．．．．．║☆
+↪ 「Dk Name」  使用定名踢出成員
+↪ 「Kill ban」 踢出黑單成員
+↪ 「Nk Name」  使用名子踢出成員
+↪ 「Ri @」     標註來回機票
+↪ 「Tk @」     標注踢出成員
+↪ 「Uk mid」   使用系統識別碼踢出成員
+〘 Creator By: ©CoCo™  〙
+〘 line.me/ti/p/1MRX_Gjbmv 〙
+☆║．．．．．．．．．．．．．．．║☆"""
+    return helpKick
+
+
+def helpother():
+    helpOther = """☆║．．．．．其他指令表．．．．．║☆
+↪ 「About」  查看自己的狀態
+↪ 「DT」     已讀點關閉
+↪ 「Fbc:」   好友廣播
+↪ 「Gbc:」   群組廣播
+↪ 「NT」     已讀點開啟
+↪ 「R」      查看已讀
+↪ 「Rebot」  重新啟動機器
+↪ 「Runtime」查看機器運行時間
+↪ 「Sf」     已讀點關閉
+↪ 「Sn」     已讀點開啟
+↪ 「Speed」  查看機器速度
+↪ 「Sr」     已讀點重設
+↪ 「Tagall」 標註群組所有成員
+〘 Creator By: ©CoCo™  〙
+〘 line.me/ti/p/1MRX_Gjbmv 〙
+☆║．．．．．．．．．．．．．．．║☆"""
+    return helpOther
+
 
 def SEND_MESSAGE(op):
     print("[25] SEND_MESSAGE")
